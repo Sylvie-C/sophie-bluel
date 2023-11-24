@@ -91,7 +91,7 @@ nav ul {
 
 }
 nav li {
-	padding: 0 10px;
+	padding: 0 30px;
 	font-size: 1.2em;
 }
 
@@ -166,7 +166,6 @@ li:hover {
 
 .gallery img {
 	width: 100%;
-
 }
 
 /* -------  SECTION CONTACT  ------- */
@@ -214,15 +213,24 @@ input[type="submit"]{
 	border-radius: 60px ;
 }
 
+input[type="submit"]:hover {
+	background: #0E2F28;
+	cursor: pointer;
+}
+
+
+/* -------  FOOTER  ------- */
+
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
 	margin: 2em
 }
 
+
+
+/* -------  MEDIA QUERIES  ------- */
+
 @media (max-width: 768px) {
-	body {
-		display : flex; 
-		flex-direction : column; 
-	}
+
 }
