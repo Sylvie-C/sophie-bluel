@@ -67,9 +67,9 @@ header {
 	margin: 50px 0
 }
 
-section {
-	margin: 50px 0
-}
+main { padding: 0 80px; }
+
+section { margin: 50px 0 }
 
 h1{
 	display: flex;
@@ -97,13 +97,17 @@ nav ul {
 	display: flex;
 	align-items: center;
 	list-style-type: none;
-
 }
 
 nav li {
-	padding: 0 30px;
+	padding: 0 20px;
 	font-size: 1.2em;
 }
+
+body > header:nth-child(1) > nav:nth-child(2) > ul:nth-child(1) > li:nth-child(4) > img:nth-child(1) {
+	width: 30px;
+  }
+  
 
 li:hover {
 	color: #B1663C;
@@ -117,17 +121,18 @@ li:hover {
 }
 
 #introduction figure {
-	flex: 1
+	flex: 1.1
 }
 
 #introduction img {
 	display: block;
-	margin: auto;
-	width: 80%;
+	width: 100%;
+	margin: 20px; 
 }
 
 #introduction article {
-	flex: 1
+	flex: 0.9 ; 
+	margin-left: 50px; 
 }
 
 #introduction h2 {
@@ -155,12 +160,15 @@ li:hover {
 }
 
 .filters button {
-	padding: 10px 20px;
-	border-radius: 20px;
+	font-size: 1.1rem ; 
+	font-weight: bold;
+
 	color: #1D6154;
 	background: none;
 	border-color: #1D6154;
-	font-weight: bold;
+
+	padding: 8px 30px;
+	border-radius: 20px;
 }
 
 .filters button:hover {
@@ -180,6 +188,10 @@ li:hover {
 
 .gallery img {
 	width: 100%;
+}
+
+.gallery figcaption {
+	margin: 8px 0 ; 
 }
 
 /* -------  SECTION CONTACT  ------- */
