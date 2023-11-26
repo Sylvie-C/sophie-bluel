@@ -3,6 +3,9 @@
    License: none (public domain)
 */
 
+
+/*  -------  SHARED STYLE  -------  */
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -34,10 +37,6 @@ body {
 	line-height: 1;
 }
 
-ol, ul {
-	list-style: none;
-}
-
 blockquote, q {
 	quotes: none;
 }
@@ -59,12 +58,6 @@ body {
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
-}
-
-header {
-	display: flex;
-	justify-content: space-between;
-	margin: 50px 0
 }
 
 main { padding: 0 80px; }
@@ -93,6 +86,20 @@ h2{
 	color: #1D6154
 }
 
+.bold-font {
+	font-weight: bolder; 
+}
+
+/* -------  HEADER  ------- */
+
+header {
+	display: flex;
+	justify-content: space-between;
+	margin: 50px 0
+}
+
+ol, ul {  list-style: none;  }
+
 nav ul {
 	display: flex;
 	align-items: center;
@@ -104,14 +111,10 @@ nav li {
 	font-size: 1.2em;
 }
 
-body > header:nth-child(1) > nav:nth-child(2) > ul:nth-child(1) > li:nth-child(4) > img:nth-child(1) {
-	width: 30px;
-  }
-  
+nav img  {  width: 30px;  }
 
-li:hover {
-	color: #B1663C;
-}
+
+li:hover { color: #B1663C;  }
 
 /* -------  SECTION INTRODUCTION  ------- */
 
