@@ -87,7 +87,12 @@ h2{
 }
 
 .bold-font {
-	font-weight: bolder; 
+	font-size: 1.12rem; 
+	font-weight: 800; 
+}
+
+.h800 {
+	height: 800px; 
 }
 
 /* -------  HEADER  ------- */
@@ -197,33 +202,32 @@ li:hover { color: #B1663C;  }
 	margin: 8px 0 ; 
 }
 
-/* -------  SECTION CONTACT  ------- */
+/* -------  SECTIONS CONTACT , LOGIN  ------- */
 
-#contact {
+#contact , #login {
 	width: 50%;
-margin: auto;
+	margin: auto;
 }
-#contact > * {
+#contact , #login > * {
 	text-align: center;
-
 }
-#contact h2{
+#contact , #login h2{
 	margin-bottom: 20px;
 }
-#contact form {
+#contact , #login form {
 	text-align: left;
 	margin-top:30px;
 	display: flex;
 	flex-direction: column;
 }
 
-#contact input {
+#contact , #login input {
 	height: 50px;
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
-#contact label {
+#contact , #login label {
 	margin: 2em 0 1em 0;
 }
 #contact textarea {
@@ -247,13 +251,22 @@ input[type="submit"]:hover {
 	cursor: pointer;
 }
 
+#login a {
+	text-align: center; 
+	text-decoration: underline;
+}
+
+#login a:hover {
+	color: #B1663C;
+}
 
 /* -------  FOOTER  ------- */
 
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
-	margin: 2em
+	margin: 2em ; 
+	font-size: 0.8em
 }
 
 
