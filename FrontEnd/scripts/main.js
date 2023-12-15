@@ -1,2 +1,15 @@
+import { generateHome } from './gallery.js' ; 
 
-fetchTravaux() ; 
+// back to home page = token removal
+window.localStorage.removeItem("tokenID") ; 
+
+// load home page
+generateHome() ; 
+
+
+
+
+
+
+
+
