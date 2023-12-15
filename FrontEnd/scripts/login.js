@@ -1,36 +1,46 @@
-// Variables
-const loginForm = document.querySelector("form"); 
-const tokenID = window.localStorage.getItem("tokenID") ; 
 
-// Functions
+// -------  GLOBAL VARIABLES  -------
+
+const loginLink = document.getElementById("login-link") ; 
+const modalLogin = document.querySelector (".modal-login") ; 
+
+const homeLink = document.getElementById("home-link") ; 
+const modalMain = document.querySelector (".main-content") ; 
+const inputFocus = document.querySelector("[name=email]") ; 
+
+const loginForm = document.querySelector(".login-form") ; 
+
+
+// -------  FUNCTIONS  -------
+
 function inputTest(email , pwd) {
 /*  Function to test and treat email / password entered by user. 
     Parameters : 2 -> email , password
     Return : 1 -> object { "email" : email , "pwd" : password }
 */
-
-    email = email.trim() ; 
-    pwd = pwd.trim() ; 
-
-    // local variables
-    const emailRegexp =  /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/
-    let result = emailRegexp.test(email) ;
-
-    // Prevent empty fields
-    if ( (email === "") || (pwd === "") ) {
-
-        alert("Email et mot de passe de connexion sont obligatoires.") ; 
-        window.location.href = "login.html" ; 
-
-    }else if (!result) {
-    // Check email format
-        alert ("Votre email est incorrect.") ; 
-        window.location.href = "login.html" ;
-    }else{
-        return { "email" : email , "pwd" : pwd } ; 
-    }    
+        // delete white spaces at begining and end of strings
+        email = email.trim() ; 
+        pwd = pwd.trim() ; 
+    
+        // local variables
+        const emailRegexp =  /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/
+        let result = emailRegexp.test(email) ;  // test if email format
+    
+        // Prevent empty fields
+        if ( (email === "") || (pwd === "") ) {
+    
+            alert("Email et mot de passe de connexion sont obligatoires.") ; 
+            window.location.href = "login.html" ; 
+    
+        }else if (!result) {
+        // Check email format
+            alert ("Votre email est incorrect.") ; 
+            window.location.href = "login.html" ;
+        }else{
+            return { "email" : email , "pwd" : pwd } ; 
+        }    
 }
-
+    
 const fetchToken = async (bodyRequest) => {
 /*  Asynchronous function that sends a request (POST method) to backend API server, 
     to submit email and password entered by user for backend test.
@@ -40,6 +50,7 @@ const fetchToken = async (bodyRequest) => {
 */
 
     const serverCall = await fetch (
+    // wait for server connection before sending request
 
         'http://localhost:5678/api/users/login' ,
 
@@ -49,44 +60,22 @@ const fetchToken = async (bodyRequest) => {
         }
     ) ;
 
-    // server call treatment
-    responseTreatment (serverCall) ; 
-    
     // wait for Promise returned by server to be solved before conversion to a JS object
     const serverResponse = await serverCall.json() ;  
 
-    return serverResponse ; 
+    return serverResponse.token ; 
 } 
 
-function responseTreatment (serverResponse) {
-/*  Function to treat a server response after request response received. 3 things done : 
-    - save server connection status (successful or not) in localStorage, based on 
-    server response of "Promise" type (unsolved) received as parameter. 
-    Status type = integer (200, 401, 404). 
-    - prompt a message to inform user if connection successful or not. 
-    - go to appropriate window based on server response. 
-    Parameters : 1 -> server response (Promise pending)
-    Return : none.
-*/
-    // if connection status ok (email/password approved), back to home page
-    if (serverResponse.status === 200) {
-        window.localStorage.setItem ("connectionStatus" , serverResponse.status) ; 
-        alert("Connexion au serveur réussie") ;  
-        window.location.href = "index.html" ; 
+// focus email input field on page load
+inputFocus.focus() ; 
 
-    } else {
-        alert ("Échec connexion au serveur. \L'email ou le mot de passe n'existe pas.") ; 
-        window.location.href = "login.html" ; 
-    }
-}
-
+// Event listener on login form submit
 loginForm.addEventListener("submit", async function (event) {
-/*  Event listener to treat form submit by user (email / password input)
-    Parameters : 2
-    Return : none.
+/*  Event listener to treat form submit by user (email / password input). 
+    If email/password valid, server response returned with token id, saved 
+    in local storage. 
 */
-
-    // prevent page reload at submit
+    // prevent page reload on submit
     event.preventDefault();
 
     // local variables
@@ -99,31 +88,23 @@ loginForm.addEventListener("submit", async function (event) {
     email = inputObj.email ; 
     password = inputObj.pwd ; 
 
+    // JS object to be sent to server
     const dataInput = { email: email , password: password } ;
 
-    // conversion to String type for body HTTP Request sending
+    // JS object conversion to String type for body HTTP Request sending
     const chargeUtile = JSON.stringify(dataInput);
 
     // fetch token ID from server
-    // wait for return of asynchronous event function, launched on event listener trigger 
-    const tokenObj = await fetchToken(chargeUtile) ;
+    const token = await fetchToken(chargeUtile) ;
 
-    window.localStorage.setItem ("tokenID" , tokenObj.token) ;  
-} ) ;
-
-export function editMode() {
-    const banner = document.querySelector("#banner") ; 
-    const filters = document.querySelector(".filters") ; 
-    const modifier = document.getElementById("modifier") ; 
-
-    console.log (tokenID) ; 
-
-    if (tokenID) {
-        banner.style.display = "flex" ; 
-        filters.style.display = "none" ; 
-        modifier.style.display = "inline" ; 
-
-        window.localStorage.removeItem ("tokenID") ; 
+    // Test of server response (token returned if connection successful)
+    if (!token) {
+        alert("Votre email ou mot de passe est incorrect.") ; 
+        window.location.href = "login.html" ; 
+    } else {
+        alert("Connexion réussie.") ; 
+        window.localStorage.setItem("tokenID" , token) ; 
+        window.location.href = "editmode.html" ; 
     }
-}
 
+} ) ;

@@ -1,5 +1,15 @@
-import { editMode } from './login.js' ; 
+import { generateHome } from './gallery.js' ; 
 
-fetchTravaux() ; 
+// back to home page = token removal
+window.localStorage.removeItem("tokenID") ; 
 
-editMode() ; 
+// load home page
+generateHome() ; 
+
+
+
+
+
+
+
+
