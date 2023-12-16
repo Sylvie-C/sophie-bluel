@@ -23,7 +23,7 @@ function inputTest(email , pwd) {
         pwd = pwd.trim() ; 
     
         // local variables
-        const emailRegexp =  /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/
+        const emailRegexp =  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/ ; 
         let result = emailRegexp.test(email) ;  // test if email format
     
         // Prevent empty fields
