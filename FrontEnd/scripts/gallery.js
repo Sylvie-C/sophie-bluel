@@ -110,9 +110,9 @@ function filterBtn (worksResource , filterId) {
     }
 }
 
-function filter(worksFiltered) {
+function filter(works) {
 /*  Function to display pictures filtered, according to filter button clicked by user. 
-    Parameters : Array of filtered works. 
+    Parameters : Array of works resource fetched from server. 
     Return : none. 
 */
     // Local variables
@@ -124,7 +124,7 @@ function filter(worksFiltered) {
         // local variables
         const filterId = evt.target.dataset.filter ; // catch filter button data-identifier
 
-        const filteredArray = filterBtn(worksFiltered,filterId) ; // apply filter -> return array of filtered objects
+        const filteredArray = filterBtn(works,filterId) ; // apply filter -> return array of filtered objects
         
         emptyGallery() ; 
 
