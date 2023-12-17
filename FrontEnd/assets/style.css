@@ -176,7 +176,7 @@ nav img  {  width: 30px;  }
 
 #introduction article {
 	flex: 0.9 ; 
-	margin-left: 50px; 
+	margin-left: 8%; 
 }
 
 #introduction h2 {
@@ -196,7 +196,7 @@ nav img  {  width: 30px;  }
 	display: flex; 
 	justify-content: center;
 	align-items: center; 
-	margin-bottom: 1.83em;
+	margin-bottom: 4em;
 }
 
 #portfolio #modifier {
