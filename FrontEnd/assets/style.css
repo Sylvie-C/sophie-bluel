@@ -25,6 +25,8 @@ time, mark, audio, video {
 	font-size: 100%;
 	font: inherit;
 	vertical-align: baseline;
+
+	box-sizing: border-box; 
 }
 
 /* HTML5 display-role reset for older browsers */
@@ -53,11 +55,26 @@ table {
 }
 
 /** end reset css**/
+
+
 body {
 	max-width: 1140px;
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
+}
+
+a { 
+	font-family: "Work Sans" ; 
+	color: black;
+}
+a:hover { 
+	color: #B1663C;  
+}
+
+svg {  
+	width: 1em; 
+	margin: 0 10px;
 }
 
 main { padding: 0 80px; }
@@ -79,28 +96,49 @@ h1 > span {
 	letter-spacing: 0.1em;
 }
 
-h2{
+h2 {
 	font-family: 'Syne';
 	font-weight: 700;
 	font-size: 30px;
-	color: #1D6154
+	color: #1D6154; 
+	
+	text-align: center; 
 }
 
-.bold-font {
-	font-size: 1.12rem; 
+h3 {
+	font-family: 'Work Sans' ; 
+	font-size: 24px;
+}
+
+.bold-font { 
 	font-weight: 800; 
-}
-
-.h800 {
-	height: 800px; 
 }
 
 /* -------  HEADER  ------- */
 
 header {
+	display: flex; 
+	flex-direction: column;
+}
+
+#banner {
+	color: white; 
+	background: black; 
+
+	display: flex; 
+	justify-content: center;
+	padding: 10px; 
+}
+
+#header {
 	display: flex;
 	justify-content: space-between;
 	margin: 50px 0
+}
+
+#header a {   
+	font-size: 1.2em; 
+	text-decoration: none; 
 }
 
 ol, ul {  list-style: none;  }
@@ -113,13 +151,11 @@ nav ul {
 
 nav li {
 	padding: 0 20px;
-	font-size: 1.2em;
 }
 
 nav img  {  width: 30px;  }
 
 
-li:hover { color: #B1663C;  }
 
 /* -------  SECTION INTRODUCTION  ------- */
 
@@ -151,12 +187,20 @@ li:hover { color: #B1663C;  }
 	margin-bottom: 0.5em;
 }
 
+
+
 /* -------  SECTION PHOTOS (PORTFOLIO) -------  */
 
 /* Titre section */
-#portfolio h2 {
-	text-align: center;
-	margin-bottom: 1em;
+.portfolio-header {
+	display: flex; 
+	justify-content: center;
+	align-items: center; 
+	margin-bottom: 1.83em;
+}
+
+#portfolio #modifier {
+	margin: auto 20px ; 
 }
 
 /* Boutons Filtres */
@@ -202,40 +246,258 @@ li:hover { color: #B1663C;  }
 	margin: 8px 0 ; 
 }
 
+
+
+/* -------  SECTION MODALS  ------- */
+
+.modal {
+
+	display: none; 
+	justify-content: center;
+	align-items: center;
+
+	position: fixed;
+	top: 0; 
+	left: 0; 
+
+	width: 100%;
+	height: 100%; 
+	background: rgba(0, 0, 0, 0.8); 
+}
+
+.modal-wrapper {
+	background: white; 
+	overflow: auto; 
+
+	width: 600px; 
+	height: 100%;
+
+	padding: 20px; 
+
+	border-radius: 10px;
+}
+
+.modal-wrapper nav {
+	display: flex;
+}
+
+.modal-close {
+	width: 100%; 
+	display: flex; 
+	justify-content: end; 
+}
+
+.modal-close img {
+	width: 10px;
+}
+
+.modal-delete { 
+/* modal-delete must be separated from modal-add due to use of different display in JavaScript */
+	display: flex; /* Caution : display used with JavaScript functions ! */
+	flex-direction: column; 
+	align-items: center;
+}
+
+.modal-gallery {
+	width: 70%;
+	margin-bottom: 20px;
+	padding: 50px 0;
+	border-bottom: lightgray solid 1px ; 
+
+	display: grid;
+	grid-template-columns: repeat(5 , 15%);
+	column-gap: 5%;
+	row-gap: 20px;
+
+	align-self: center; 
+}
+
+
+/* -------  Modal delete pictures :  */
+
+.modal-gallery img {
+	width: 70px;
+}
+
+.modal-elt {
+	position: relative; 
+}
+
+.trash {
+	padding: 0 2px; 
+
+	position: absolute; 
+	top: 4px; 
+	left: 54px;
+
+	background: black; 
+}
+
+.trash:hover { background: rgb(46, 46, 46); }
+
+.trash img { 
+	width: 8px; 
+}
+
+.modal-btn , .modal-addBtn {
+	width: fit-content; 
+	font-size: inherit; 
+	padding: 8px 50px;
+	border: none;
+
+	font-family: 'Syne';
+	font-weight: 700;
+	color: white;
+	background-color: #1D6154;
+	margin : 2em auto ;
+	text-align: center;
+
+	border-radius: 60px ;
+}
+
+
+/*  -------  Modal Add pictures :  */
+
+.modal-arrowLeft {
+	display: none;  /* Caution : display used with JavaScript functions */
+}
+
+.modal-add {
+/* modal-add must be separated from modal-delete due to use of different display in JavaScript */
+
+	display: none; /* Caution : display used with JavaScript functions */
+	flex-direction: column; 
+	align-items: center; 
+}
+
+.modal-add form {
+	width: 70%;
+	margin-top: 50px;
+
+	display: flex; 
+	flex-direction: column;
+}
+
+
+/* File browser box */
+
+.modal-dragdrop {
+	font-size: 10px;
+	background: #E8F1F6; 
+	padding: 30px;
+
+	display: flex;
+	flex-direction: column;  
+	align-items: center; 
+
+	row-gap: 14px;
+}
+
+.modal-forminfo label {
+	margin-top: 30px; 
+	margin-bottom: 10px; 
+}
+
+.label-file {
+	font-size: 12px;
+	color: #306685; 
+	background: #CBD6DC; 
+
+	border: none; 
+	border-radius: 20px;
+	padding: 10px 34px; 
+}
+
+.label-file:hover {
+	background: #c1cacf; 
+	cursor: pointer; 
+}
+
+#input-file {
+	display: none; 
+}
+
+
+/*  Title, Category form section  */
+
+.modal-forminfo {
+	display: flex; 
+	flex-direction: column; 
+
+	width: 100%;
+
+	margin-bottom: 20px; 
+	padding-bottom: 50px; 
+	border-bottom: lightgray solid 1px; 
+}
+
+
+#category {
+	width: 100%;
+
+	color: #A7A7A7;
+	background: transparent; 
+
+	border-radius: 5px;
+}
+
+.modal-select {
+	font-size: 10px;
+}
+
+/*  Validate button  */
+
+.modal-addBtn {
+	background: #A7A7A7;
+	width: 40%; 
+	font-size: 12px;
+}
+
+.modal-addBtn:hover {
+	background: #CBD6DC; 
+}
+
+
+
 /* -------  SECTIONS CONTACT , LOGIN  ------- */
 
-#contact , #login {
+#contact {
 	width: 50%;
 	margin: auto;
 }
-#contact , #login > * {
+
+#contact > * {
 	text-align: center;
 }
-#contact , #login h2{
+
+#contact h2 {
 	margin-bottom: 20px;
 }
-#contact , #login form {
+
+#contact form , #login form{
 	text-align: left;
 	margin-top:30px;
 	display: flex;
 	flex-direction: column;
 }
 
-#contact , #login input {
+#contact input , #login input , .modal-add input , #category {
 	height: 50px;
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
-#contact , #login label {
+
+#contact label , #login label {
 	margin: 2em 0 1em 0;
 }
-#contact textarea {
+
+#contact textarea , #login textarea {
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-input[type="submit"]{
+input[type="submit"] {
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
@@ -243,21 +505,32 @@ input[type="submit"]{
 	margin : 2em auto ;
 	width: 180px;
 	text-align: center;
+
 	border-radius: 60px ;
 }
 
-input[type="submit"]:hover {
+input[type="submit"]:hover , .modal-btn:hover {
 	background: #0E2F28;
 	cursor: pointer;
 }
 
-#login a {
+#login {
+	text-align: center; /* title h center */
+	width: 33%;
+}
+
+ #login a {
 	text-align: center; 
 	text-decoration: underline;
 }
 
 #login a:hover {
 	color: #B1663C;
+} 
+
+.login-main {
+	display: flex; 
+	justify-content: center;
 }
 
 /* -------  FOOTER  ------- */
