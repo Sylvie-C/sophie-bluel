@@ -264,7 +264,7 @@ function uploadFile(token) {
         fileUploaded = event.target.files[0] ; 
 
         // image HTML object for display
-        newImage.src = "/assets/images/" + event.target.files[0].name ; 
+        newImage.src = "./assets/images/" + event.target.files[0].name ; 
         newImage.alt = "votre image ajoutée" ; 
         newImage.style.width = "150px" ;
 

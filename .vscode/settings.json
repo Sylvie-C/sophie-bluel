@@ -1,4 +1,3 @@
 { 
-    "liveServer.settings.port" : 7000 , 
-    "liveServer.settings.root" : "/FrontEnd/"
+    "liveServer.settings.port" : 7000
 }
