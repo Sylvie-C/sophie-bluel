@@ -85,8 +85,6 @@ loginForm.addEventListener("submit", async function (event) {
     // Test input (email / password)
     const inputObj = inputTest (email , password) ; 
 
-    console.log (inputObj) ; 
-
     email = inputObj.email ; 
     password = inputObj.pwd ; 
 
@@ -97,10 +95,7 @@ loginForm.addEventListener("submit", async function (event) {
     const chargeUtile = JSON.stringify(dataInput);
 
     // fetch token ID from server
-    const token = await fetchToken(chargeUtile) ;
-
-    console.log ("token retourné par serveur (recueil submit form) : ") ; 
-    console.log (token) ; 
+    const token = await fetchToken(chargeUtile) ;; 
 
     // Test of server response (token returned if connection successful)
     if (!token) {
