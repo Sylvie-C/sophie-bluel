@@ -120,7 +120,6 @@ function generateModalGallery(worksResource , token) {
             // delete picture from server and from gallery
             deleteWorks (token , imgContainer.id) ; 
         }) ; 
-
     } // end of loop "for"
 }
 
@@ -219,7 +218,6 @@ async function updateModalGallery(token) {
 // Functions to add works
 
 function serverSendWork (token , formDataObject) {
-
     // fetch/send work to server
     fetch( 'http://localhost:5678/api/works'  ,  
     { 
@@ -247,7 +245,6 @@ function serverSendWork (token , formDataObject) {
 }
 
 function uploadFile(token) {
-
     // -------  LOCAL VARIABLES :  
     let newImage = document.createElement("img") ; 
     let fileUploaded ; 
@@ -258,7 +255,7 @@ function uploadFile(token) {
 
     // event listener on file upload
     inputFile.addEventListener("change" , function(event) {  
-        event.preventDefault() ; 
+        // event.preventDefault() ; 
 
         // Uploaded File object
         fileUploaded = event.target.files[0] ; 
