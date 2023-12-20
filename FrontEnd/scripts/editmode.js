@@ -3,14 +3,17 @@ import { fetchWorks , emptyGallery , displayGallery } from "./gallery.js" ;
 
 // -------  VARIABLES  -------
 
-const token = window.localStorage.getItem("tokenID") ; 
+let token = window.localStorage.getItem("tokenID") ; 
 
 let worksResource = await fetchWorks() ; 
+
+const logoutLink = document.getElementById("logout-link") ; 
+
+const modalLink = document.getElementById("modal-open") ;
 
 const modal = document.querySelector(".modal") ; 
 const modalWrapper = document.querySelector(".modal-wrapper") ; 
 
-const modalLink = document.getElementById("modal-open") ;
 const modalCloseLink = document.querySelector(".modal-close") ; 
 
 // delete works modal
@@ -29,6 +32,25 @@ const modalAddBtn = document.querySelector(".modal-addBtn") ;
 
 
 // -------  FUNCTIONS  -------
+
+function onlogin() {
+    // Local variables 
+    const modifierContainer = document.getElementById("modifier") ; 
+    const banner = document.getElementById("banner") ; 
+
+    // Instructions
+    if (!token) {
+        window.location.href = "index.html" ; 
+        modifierContainer.style.display = "none" ; 
+        banner.style.display = "none" ; 
+    }
+}
+
+const logoutEditmode = () => {
+    window.location.href = "index.html" ; 
+    window.localStorage.clear() ; 
+    token = null ; 
+}
 
 // Functions to generate modals
 const generateModal = (works , token) => {
@@ -306,13 +328,22 @@ function uploadFile(token) {
 
 } // End of uploadFile() function
 
-// ------- END OF FUNCTIONS SECTION -------
+// ------- END OF FUNCTIONS SECTION
 
+
+// ------- EVENT LISTENERS -------
+
+// Log out on click on "logout" link
+logoutLink.addEventListener ( "click" , function () {
+    logoutEditmode() ; 
+} ) ; 
+
+// ------- END OF EVENT LISTENERS
+
+onlogin() ; 
 
 displayGallery (worksResource) ; 
 
 generateModal (worksResource , token) ; 
 
 uploadFile(token) ; 
-
-

@@ -59,7 +59,7 @@ const fetchToken = async (bodyRequest) => {
             body: bodyRequest
         }
     ) ;
-
+    
     // wait for Promise returned by server to be solved before conversion to a JS object
     const serverResponse = await serverCall.json() ;  
 
@@ -106,5 +106,4 @@ loginForm.addEventListener("submit", async function (event) {
         window.localStorage.setItem("tokenID" , token) ; 
         window.location.href = "editmode.html" ; 
     }
-
 } ) ;
