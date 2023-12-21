@@ -11,7 +11,6 @@
 
 	<link rel="stylesheet" href="./assets/style.css">
 	<script type="module" src="/scripts/editmode.js" defer></script>
-	<script type="module" src="/scripts/gallery.js" defer></script>
 </head>
 <body>
 <header>
@@ -26,9 +25,9 @@
 		<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 		<nav>
 			<ul>
-				<li class="bold-font"><a href="index.html" id="home-link">projets</a></li>
+				<li class="bold-font"><a href="editmode.html#portfolio">projets</a></li>
 				<li><a href="#contact">contact</a></li>
-				<li><a href="#" id="login-link">login</a></li>
+				<li><a href="#" id="logout-link">logout</a></li>
 				<li><a href="#"><img src="./assets/icons/instagram.svg" alt="Instagram"></a></li>
 			</ul>
 		</nav>
@@ -97,11 +96,7 @@
 	
 								<label for="category">Catégorie</label>
 								<div class="modal-select">
-									<select id="category" name="category">
-										<option value="01">Objets</option>
-										<option value="02">Appartements</option>
-										<option value="03">Hôtels / Restaurants</option>
-									</select>
+									<select id="category" name="category"></select>
 								</div>
 							</div>
 							<button type="submit" class="modal-addBtn">Valider</button>
@@ -114,7 +109,7 @@
 		<section id="contact">
 			<h2>Contact</h2>
 			<p>Vous avez un projet ? Discutons-en !</p>
-			<form action="#" method="post">
+			<form>
 				<label for="name">Nom</label>
 				<input type="text" name="name" id="name">
 				<label for="email">Email</label>
