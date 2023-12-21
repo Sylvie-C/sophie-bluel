@@ -1,11 +1,11 @@
-import { fetchWorks , emptyGallery , displayGallery } from "./gallery.js" ;
+import { fetchWorks , fetchCategory , emptyGallery , displayGallery } from "./gallery.js" ;
 
 
 // -------  VARIABLES  -------
 
 let token = window.localStorage.getItem("tokenID") ; 
-
 let worksResource = await fetchWorks() ; 
+let categoriesResource = await fetchCategory() ; 
 
 const logoutLink = document.getElementById("logout-link") ; 
 
@@ -22,12 +22,16 @@ const modalGallery = document.querySelector(".modal-gallery") ;
 const modalBtn = document.querySelector(".modal-btn") ;
 
 // add works modal
+let fileUploaded ;
+
 const modalAdd = document.querySelector (".modal-add") ; 
 const modalArrow = document.querySelector(".modal-arrowLeft") ; 
 
 const formAddFile = document.querySelector(".form-addFile") ; 
 const modalDragDrop = document.querySelector(".modal-dragdrop") ; 
-const inputFile = document.getElementById("input-file") ;
+
+const titleInput = document.querySelector("input[name=title]") ; 
+const categoryInput = document.getElementById("category") ; 
 const modalAddBtn = document.querySelector(".modal-addBtn") ; 
 
 
@@ -62,17 +66,22 @@ const generateModal = (works , token) => {
     // Generate pictures gallery in Delete modal
     generateModalGallery(works , token) ; 
 
+    // Dynamically generate category options for select tag in "Add works" modal
+    generateCategorySelect() ; 
+
     // EVENT LISTENERS
 
     // open modal on click on "modifier" link and display "Delete modal" content
     modalLink.addEventListener("click" , function () {
         modal.style.display = "flex" ; 
         displayDeleteModal() ;
+        resetAddModal() ; 
     } ) ;
 
     // close modal on click on "x" icon
     modalCloseLink.addEventListener ("click" , function () {
         modal.style.display = "none" ;
+        resetAddModal() ; 
     } ) ; 
     
     // close modal on click outside modal
@@ -80,17 +89,20 @@ const generateModal = (works , token) => {
         if (!modalWrapper.contains(evt.target)) {
         // if click not inside modal wrapper (modal window) , close modal
             modal.style.display = "none" ;
+            resetAddModal() ; 
         }
     }) ; 
 
     // open "Add modal" on click on "Ajout Photo" button
     modalBtn.addEventListener ("click" , function () { 
+        resetAddModal() ; 
         displayAddModal() ; 
     } ) ;
 
     // open "Delete modal" content on click on "arrow left" icon
     modalArrow.addEventListener ("click" , function () {
         displayDeleteModal() ; 
+        resetAddModal() ; 
     } ) ;  
 }
 
@@ -249,35 +261,54 @@ function serverSendWork (token , formDataObject) {
     } 
     )
     .then(response => { 
-    response.json() ; 
-    if (response.ok) { 
-        alert('Connexion au serveur réussie / Fichier envoyé.');
-        updateGallery() ; 
-        updateModalGallery(token) ;  
+        response.json() ; 
+        if (response.ok) { 
+            alert('Connexion au serveur réussie / Fichier envoyé.');
+            updateGallery() ; 
+            updateModalGallery(token) ;  
 
-        // back to edit mode page + reset "add modal"
-        location.reload() ; 
-
-    } else { 
-        alert( "Un problème est survenu. Fichier non envoyé."); 
-    } 
+            // back to edit mode page + reset "add modal"
+            displayDeleteModal() ; 
+            // resetAddModal() ; 
+        } else { 
+            alert( "Un problème est survenu. Fichier non envoyé."); 
+        } 
     } ) 
-    .catch(error => { console.log('Erreur de connexion au serveur : ', error); } 
-    ) ;
+    .catch(error => { 
+        console.log('Erreur de connexion au serveur : ', error); 
+    } ) ;
 }
 
-function uploadFile(token) {
-    // -------  LOCAL VARIABLES :  
-    let newImage = document.createElement("img") ; 
-    let fileUploaded ; 
-    let titleInput = document.querySelector("[name=title]") ; 
-    let categoryInput = document.querySelector("[name=category]") ; 
+function resetAddModal() {
+    modalDragDrop.replaceChildren() ; 
+    modalDragDrop.innerHTML = 
+    `
+        <img src="assets/icons/picture.svg" alt="">
+        <label for="input-file" class="label-file">+ Ajouter photo</label>
+        <input id="input-file" type="file">
+        .jpg , .png : 4mo max
+    ` ; 
 
-    // -------  EVENT LISTENERS : 
+    fileUploaded = "" ; 
+}
+
+function generateCategorySelect() {
+    categoriesResource.forEach ( categoriesElt => {
+        const optionElt = document.createElement("option") ; 
+        optionElt.setAttribute("value" , categoriesElt.id) ; 
+        optionElt.innerText = categoriesElt.name ; 
+
+        categoryInput.append(optionElt) ; 
+    } ) ; 
+}
+
+function uploadWork (token) {
+
+    // -------  LOCAL VARIABLES :  
+    let newImage = document.createElement("img") ;   
 
     // event listener on file upload
-    inputFile.addEventListener("change" , function(event) {  
-        // event.preventDefault() ; 
+    modalDragDrop.addEventListener("input" , function(event) {  
 
         // Uploaded File object
         fileUploaded = event.target.files[0] ; 
@@ -293,6 +324,7 @@ function uploadFile(token) {
 
     } ) ; // end of event listener on file upload button
 
+
     // event listener on validate button click
     modalAddBtn.addEventListener ( "click" , function(event) {
         let titleData = titleInput.value ; 
@@ -307,8 +339,10 @@ function uploadFile(token) {
         }
     } ) ; 
 
-    // Event listener on form submit (add work)
+
+    // event listener on validate button click
     formAddFile.addEventListener ("submit" , function (event) {
+
         event.preventDefault() ; 
 
         // Make FormData object
@@ -323,8 +357,7 @@ function uploadFile(token) {
 
         // Reset input fields
         titleInput.value = "" ; 
-        categoryInput.value = "" ; 
-    } ) ;
+    } ) ; 
 
 } // End of uploadFile() function
 
@@ -346,4 +379,4 @@ displayGallery (worksResource) ;
 
 generateModal (worksResource , token) ; 
 
-uploadFile(token) ; 
+uploadWork(token) ; 

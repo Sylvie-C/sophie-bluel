@@ -63,85 +63,78 @@ export function emptyGallery () {
     gallery.replaceChildren() ; 
 }
 
-function filterBtn (worksResource , filterId) {
-/*
-    Function to return new array of objects, according to filter button clicked by user.  
-    Parameters : 2 
-        -> Array of works resource from server. Format : 
-        Array [ { id: , title: , imageUrl: , category: {...} , categoryId: , userId: } , { ... } , ... ]
-        -> clicked filter button id
-    Return : array of filtered objects (same format that worksResource)
-*/ 
-    let newArray = [] ; 
 
-    switch (filterId) {
-        case "objects" : 
-            // return Array of "Objects" (categoryId 1)
-            worksResource.forEach(element => {
-                if (element.categoryId === 1) {
-                    newArray.push(element) ; 
-                }
-            }); 
-            return newArray ; 
-            break ; 
+// ------- FILTERS 
 
-        case "flats" : 
-            // return Array of "Appartements" (categoryId 2)
-            worksResource.forEach(element => {
-                if (element.categoryId === 2) {
-                    newArray.push(element) ; 
-                }
-            }); 
-            return newArray ; 
-            break ; 
+export async function fetchCategory() {
+    try {
+        const response = await fetch ("http://localhost:5678/api/categories") ; 
 
-        case "hotels" : 
-            // return Array of "Hotels & restaurants" (categoryId 3)
-            worksResource.forEach(element => {
-                if (element.categoryId === 3) {
-                    newArray.push(element) ; 
-                }
-            }); 
-            return newArray ; 
-            break ; 
+        if (!response.ok) { 
+            throw new Error ("Erreur de récupération des categories") ; 
+        }
 
-        default : 
-            return worksResource ; 
+        // Wait server response before conversion to JavaScript object
+        const categories = await response.json() ; 
+
+        return categories ; 
+    }
+    catch (error) { 
+        console.error (error) ; 
     }
 }
 
-function filter(worksFiltered) {
-/*  Function to display pictures filtered, according to filter button clicked by user. 
-    Parameters : Array of filtered works. 
-    Return : none. 
-*/
-    // Local variables
-    const filtersContainer = document.querySelector(".filters") ; // filter buttons container
+async function generateFilters (categories) {
+    const filtersContainer = document.querySelector (".filters") ; 
+    let btnElt = document.createElement("button") ; 
 
-    // detect filter button clicked (event listener) and apply event function (-> display updated gallery)
-    filtersContainer.addEventListener ( "click" , function (evt) { 
+    btnElt.setAttribute("data-filter" , "all") ; 
+    btnElt.textContent = "All" ; 
+    filtersContainer.appendChild(btnElt) ; 
 
-        // local variables
-        const filterId = evt.target.dataset.filter ; // catch filter button data-identifier
+    categories.forEach( function(categoriesElt) {
+        btnElt = document.createElement("button");
+        btnElt.setAttribute("data-filter", categoriesElt.id);
+        btnElt.textContent = categoriesElt.name;
 
-        const filteredArray = filterBtn(worksFiltered,filterId) ; // apply filter -> return array of filtered objects
-        
-        emptyGallery() ; 
+        filtersContainer.appendChild(btnElt);
+    });
 
-        // display updated content
-        displayGallery(filteredArray) ; 
-    } ) ; 
 }
 
+function displayFiltered (worksResource) {
+
+    // local variables
+    const filtersContainer = document.querySelector(".filters") ; 
+    
+    filtersContainer.addEventListener ( "click" , function (evt) {
+        let filterId = evt.target.dataset.filter ; // catch filter button data-identifier
+
+        if (filterId !== "all") {
+            filterId = parseInt (filterId) ; 
+     
+            const arrayFiltered = worksResource.filter(worksElt => worksElt.categoryId === filterId) ; 
+
+            emptyGallery() ; 
+            displayGallery(arrayFiltered)
+        } else {
+            emptyGallery() ; 
+            displayGallery(worksResource) ; 
+        }
+
+    } )  ; 
+}
 
 // EXPORTS MODULE
 export async function generateHome() {
     // local variables
     let worksResource = await fetchWorks() ; 
+    let categoryResource = await fetchCategory() ; 
 
     // display all works on page
     displayGallery(worksResource) ; 
 
-    // generate filter buttons functionality
-    filter(worksResource) ; 
+    generateFilters(categoryResource) ; 
+
+    displayFiltered(worksResource , categoryResource) ; 
 }
